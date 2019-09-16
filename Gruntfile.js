@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   grunt.initConfig({
     compass: {                  // Task
       dist: {                   // Target
@@ -10,20 +10,36 @@ module.exports = function(grunt) {
       },
     },
     watch: {
+      options: {
+        livereload: true,
+      },
       css: {
         files: ['sass/*.scss'],
         tasks: ['compass'],
-        options: {
-          livereload: true,
-        },
       },
     },
+    browserSync: {
+      dev: {
+        bsFiles: {
+          src: [
+            'css/*.css',
+            './*.html'
+          ]
+        },
+        options: {
+          watchTask: true,
+          server: './'
+        }
+      }
+    }
   });
-
-  [
-    'grunt-contrib-compass',
-    'grunt-contrib-watch'
-  ].forEach(grunt.loadNpmTasks);
-
-  grunt.registerTask('default', ['compass']);
-};
+  // [
+  //   'grunt-contrib-compass',
+  //   'grunt-browser-sync',
+  //   'grunt-contrib-watch'
+  // ].forEach(grunt.loadNpmTasks);
+  grunt.loadNpmTasks('grunt-contrib-compass'),
+  grunt.loadNpmTasks('grunt-browser-sync'),
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.registerTask('default', ['browserSync', 'watch']);
+ };
